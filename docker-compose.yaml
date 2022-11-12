@@ -13,6 +13,8 @@ services:
     environment:
       - SEARXNG_HOSTNAME=${SEARXNG_HOSTNAME:-http://localhost:80}
       - SEARXNG_TLS=${LETSENCRYPT_EMAIL:-internal}
+      - AUTH_USER=${AUTH_USER:-admin}
+      - AUTH_PASS=${AUTH_PASS:-password}
     cap_drop:
       - ALL
     cap_add:
@@ -34,15 +36,31 @@ services:
       - SETUID
       - DAC_OVERRIDE
 
+  tor:
+    image: osminogin/tor-simple
+    restart: always
+    networks:
+      - searxng
+    ports:
+      - "9050:9050"
+
   searxng:
     container_name: searxng
     image: searxng/searxng:latest
+    depends_on:
+      - tor
     networks:
       - searxng
     ports:
      - "127.0.0.1:8080:8080"
     volumes:
       - ./searxng:/etc/searxng:rw
+      - type: bind
+        source: ./searxng.png
+        target: /usr/local/searxng/searx/static/themes/simple/img/searxng.png
+      - type: bind
+        source: ./paulgoio-searxng/src/css
+        target: /usr/local/searxng/searx/static/themes/simple/css
     environment:
       - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
     cap_drop:
