@@ -56,11 +56,11 @@ services:
     volumes:
       - ./searxng:/etc/searxng:rw
       - type: bind
-        source: ./searxng.png
-        target: /usr/local/searxng/searx/static/themes/simple/img/searxng.png
+        source: ./theme/searx/static/themes/custom
+        target: /usr/local/searxng/searx/static/themes/custom
       - type: bind
-        source: ./paulgoio-searxng/src/css
-        target: /usr/local/searxng/searx/static/themes/simple/css
+        source: ./theme/searx/templates/custom
+        target: /usr/local/searxng/searx/templates/custom
     environment:
       - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
     cap_drop:
