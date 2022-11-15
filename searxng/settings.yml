@@ -1,14 +1,13 @@
 # see https://docs.searxng.org/admin/engines/settings.html#use-default-settings
 use_default_settings: true
 general:
-  instance_name: "Joe's SearX"
+  instance_name: "Google but the g is like gif"
 search:
-  autocomplete: "startpage"
+  autocomplete: "google"
   default_lang: "en-US"
 server:
-  # base_url is defined in the SEARXNG_BASE_URL environment variable, see .env and docker-compose.yml
   secret_key: ${SECRET}
-  limiter: false  # can be disabled for a private instance
+  limiter: false
   image_proxy: true
 ui:
   static_use_hash: true
@@ -21,3 +20,11 @@ outgoing:
   proxies:
     all://:
       - socks5h://tor:9050
+engines:
+  - name: qwant
+    engine: qwant
+    language: en-US
+  - name: duckduckgo
+    engine: duckduckgo
+    language: en-US
+    using_tor_proxy: false
