@@ -1,0 +1,3 @@
+[submodule "theme"]
+	path = theme
+	url = git@github.com:frap129/searxng.git
